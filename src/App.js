@@ -1,24 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles/body.scss";
+import Navigation from "./views/Navigation";
+import MusicPlayer from "./views/MusicPlayer";
+import MainPage from "./views/MainPage";
+import Music from "./api/Music";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navigation />
+      <MainPage />
+      <MusicPlayer />
+      <Music />
+    </>
   );
 }
 
