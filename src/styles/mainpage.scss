@@ -134,5 +134,9 @@
   }
   .category {
     justify-content: center;
+    & .category-item {
+      height: 130px;
+      width: 100px;
+    }
   }
 }

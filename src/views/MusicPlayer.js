@@ -40,7 +40,7 @@ const MusicPlayer = () => {
     navi.style.height = "";
     menuRight.style.height = "";
   }
-  const openFullScreenPlayer = async () => {
+  const openFullScreenPlayer = () => {
     if (musicPlayer && navDown && isFullView === false && fullView) {
       musicPlayer.style = `transform: translateY(100%);`;
 
@@ -61,13 +61,11 @@ const MusicPlayer = () => {
       setIsFullView(data);
     }
   };
-  const testPromise = () => {
-    console.log("test promise");
-  };
 
   const handleUpdateCurrentMusic = async (data) => {
     await new Promise((resolve) => {
       setIsLoading(true);
+
       setTimeout(resolve, 200);
     });
 
@@ -125,7 +123,7 @@ const MusicPlayer = () => {
                     className="range"
                     name="vol"
                     min="0"
-                    max="50"
+                    max="100"
                   />
                   <span className="time-right">00:00</span>
                 </div>

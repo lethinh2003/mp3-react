@@ -67,9 +67,14 @@
 
       & .playbar-bottom {
         display: flex;
+        align-items: center;
         justify-content: space-around;
         & .range {
           width: 250px;
+          height: 3px;
+          &:hover {
+            height: 5px;
+          }
         }
       }
     }
