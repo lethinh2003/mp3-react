@@ -16,6 +16,22 @@ const MusicPlayer = () => {
   const [musicInfo, setMusicInfo] = useState();
   const [navi, setNavi] = useState();
   const [menuRight, setMenuRight] = useState();
+
+  ////Menu music
+  const [audioPlay, setAudioPlay] = useState();
+  const [timeRight, setTimeRight] = useState();
+  const [timeLeft, setTimeLeft] = useState();
+  const [iconRepeat, setIconRepeat] = useState();
+  const [minutesCurrent, setMinutesCurrent] = useState(0);
+  const [secondsCurrent, setSecondsCurrent] = useState(0);
+  const [minutesDuration, setMinutesDuration] = useState(0);
+  const [secondsDuration, setSecondsDuration] = useState(0);
+  const [valueCurrent, setValueCurrent] = useState(0);
+  const [isAudioPlay, setIsAudioPlay] = useState(false);
+  const [isRepeatMusic, setIsRepeatMusi] = useState(false);
+
+  ///
+
   useEffect(() => {
     const navi = document.querySelector(".navigation");
     const musicPlayer = document.querySelector(".music-player");
@@ -80,6 +96,17 @@ const MusicPlayer = () => {
       <FullView
         currentMusic={currentMusic}
         handleCloseFullView={handleCloseFullView}
+        audioPlay={audioPlay}
+        timeRight={timeRight}
+        timeLeft={timeLeft}
+        iconRepeat={iconRepeat}
+        minutesCurrent={minutesCurrent}
+        secondsCurrent={secondsCurrent}
+        minutesDuration={minutesDuration}
+        secondsDuration={secondsDuration}
+        valueCurrent={valueCurrent}
+        isAudioPlay={isAudioPlay}
+        isRepeatMusic={isRepeatMusic}
       />
       <div className="open-playlist" onClick={(e) => handleOpenMenuRight(e)}>
         <MdQueueMusic />

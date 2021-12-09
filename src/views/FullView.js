@@ -1,22 +1,79 @@
 import "../styles/fullview.scss";
 import { useState, useEffect } from "react";
 const FullView = (props) => {
+  const PlayList = [
+    {
+      id: 1,
+      name: "Call Of Silence",
+      image: "https://i.imgur.com/0HSZKLu.jpg",
+      link: "http://upfile.vn/download/guest/_~XtNkBmNqFg/HxBmFTjmAVXi/qWWrtC8L9xKS/rxdHKC8YFZKy/a1444d801d58aa53b/1639038871/2cbd98ef19c4fc2ab522fe450008074a478032cc22cba9ebe/CallOfSilence.mp3",
+      author: "Hiroyuki Sawano; Gemie",
+      category: "JP",
+    },
+    {
+      id: 2,
+      name: "Nandemonaiya",
+      image: "https://i.imgur.com/uJxbqaC.jpg",
+      link: "http://upfile.vn/download/guest/~mjCuVXtAVX-/hyBmFTjmAVBg/RHWHFC8c0B7w/dxS0OcOoGBzk/294c14611ea5bfafb/1639038948/6c84ee6f827c1b1b5b2a83f82a75657543ed8e928dcabb62d/Nandemonaiya.mp3",
+      author: "Kamishiraishi Mone",
+      category: "JP",
+    },
+    {
+      id: 3,
+      name: "Uchiage Hanabi",
+      image: "https://i.imgur.com/98jj7w2.jpg",
+      link: "http://upfile.vn/download/guest/7~XtNkBmNQT3/JsLCFQBtFrBC/WDWS5CNw8HKy/BCSBgucU1ce0/cd8f2205315935f36/1639038981/066f6b1886a071dae1ba32f6759f28ab06315178c55fea7e3/UchiageHanabi.mp3",
+      author: "Kenshi Yonezu",
+      category: "JP",
+    },
+    {
+      id: 4,
+      name: "Hazakura",
+      image: "https://i.imgur.com/3B2eBcK.jpg",
+      link: "http://upfile.vn/download/guest/A~XtNkBmNQI3/2UrCFQBtFrBC/w_ec1CNsEDFk/MhO1KCrLXhSr/78ffa547ab7305497/1639039012/736eab1164fbaa5f0c1c9155e89d5ec4785fa3d3ad9ea0a22/Hazakura.mp3",
+      author: "Kie Kitano",
+      category: "JP",
+    },
+    {
+      id: 5,
+      name: "Orange",
+      image: "https://i.imgur.com/WdlbOlN.jpg",
+      link: "http://upfile.vn/download/guest/6MWm_kBCurBC/rwjmFTjmAVZb/ByFKRQ7orWOL/bDZoPcGsC_ZB/a03e9e7651621c01c/1639039042/af36e03763c64dc50022fc7b049f810ced49e3ee8f9d5039c/Orange7.mp3",
+      author: "7!!",
+      category: "JP",
+    },
+  ];
   const { currentMusic, handleCloseFullView } = props;
+  // audioPlay,
+  // timeRight,
+  // timeLeft,
+  // iconRepeat,
+  // minutesCurrent,
+  // secondsCurrent,
+  // minutesDuration,
+  // secondsDuration,
+  // valueCurrent,
+  // isAudioPlay,
+  // isRepeatMusic,
   const [audioPlay, setAudioPlay] = useState();
   const [timeRight, setTimeRight] = useState();
   const [timeLeft, setTimeLeft] = useState();
+  const [iconRepeat, setIconRepeat] = useState();
   const [minutesCurrent, setMinutesCurrent] = useState(0);
   const [secondsCurrent, setSecondsCurrent] = useState(0);
   const [minutesDuration, setMinutesDuration] = useState(0);
   const [secondsDuration, setSecondsDuration] = useState(0);
   const [valueCurrent, setValueCurrent] = useState(0);
   const [isAudioPlay, setIsAudioPlay] = useState(false);
+  const [isRepeatMusic, setIsRepeatMusi] = useState(false);
 
   useEffect(() => {
     if (currentMusic) {
       const audioPlay = document.querySelector("audio");
       const timeRight = document.querySelector(".time-right");
       const timeLeft = document.querySelector(".time-left");
+      const iconRepeat = document.querySelector(".fa-repeat");
+      setIconRepeat(iconRepeat);
       setTimeLeft(timeLeft);
       setTimeRight(timeRight);
       setAudioPlay(audioPlay);
@@ -32,6 +89,16 @@ const FullView = (props) => {
       }
     }
   }, [currentMusic]);
+  if (audioPlay && isRepeatMusic && valueCurrent) {
+    if (valueCurrent >= 100) {
+      audioPlay.currentTime = 0;
+    }
+  } else if (audioPlay && !isRepeatMusic && valueCurrent) {
+    if (valueCurrent >= 100) {
+      audioPlay.currentTime = 0;
+      audioPlay.pause();
+    }
+  }
 
   const updateTime = () => {
     if (audioPlay) {
@@ -54,12 +121,26 @@ const FullView = (props) => {
       const valueCurrent = Math.floor(
         (audioPlay.currentTime / audioPlay.duration) * 100
       );
+
       setMinutesCurrent(getMinutesCurrent);
       setSecondsCurrent(getSecondsCurrent);
       setMinutesDuration(getMinutes);
       setSecondsDuration(getSeconds);
       setValueCurrent(valueCurrent);
     }
+  };
+  const handleChangeValue = (e) => {
+    const changeValue = (audioPlay.duration / 100) * e.target.value;
+    setValueCurrent(e.target.value);
+    audioPlay.currentTime = changeValue;
+  };
+  const handleChangeRepeatMusic = () => {
+    if (iconRepeat && isRepeatMusic) {
+      iconRepeat.style = "";
+    } else if (iconRepeat && !isRepeatMusic) {
+      iconRepeat.style = "color: #b55fe2;";
+    }
+    setIsRepeatMusi(!isRepeatMusic);
   };
   const updateRealTime = setInterval(updateTime, 1000);
   const handleClickCloseFullView = () => {
@@ -106,6 +187,7 @@ const FullView = (props) => {
                     {minutesCurrent}:{secondsCurrent}
                   </span>
                   <input
+                    onChange={(e) => handleChangeValue(e)}
                     type="range"
                     className="range"
                     name="vol"
@@ -133,12 +215,16 @@ const FullView = (props) => {
                     <i
                       className="fa play-icon fa-pause-circle-o"
                       onClick={() => handleOnMusic()}
-                      style={{ fontSize: "40px" }}
+                      style={{ fontSize: "40px", color: " rgb(181, 95, 226)" }}
                       aria-hidden="true"
                     ></i>
                   )}
                   <i className="fa fa-step-forward" aria-hidden="true"></i>
-                  <i className="fa fa-repeat" aria-hidden="true"></i>
+                  <i
+                    className="fa fa-repeat"
+                    onClick={() => handleChangeRepeatMusic()}
+                    aria-hidden="true"
+                  ></i>
                 </div>
               </div>
             </div>
