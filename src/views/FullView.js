@@ -9,6 +9,7 @@ const FullView = (props) => {
   const [secondsCurrent, setSecondsCurrent] = useState(0);
   const [minutesDuration, setMinutesDuration] = useState(0);
   const [secondsDuration, setSecondsDuration] = useState(0);
+  const [valueCurrent, setValueCurrent] = useState(0);
   const [isAudioPlay, setIsAudioPlay] = useState(false);
 
   useEffect(() => {
@@ -50,10 +51,14 @@ const FullView = (props) => {
       } else {
         getSecondsCurrent = getSecondsCurrent;
       }
+      const valueCurrent = Math.floor(
+        (audioPlay.currentTime / audioPlay.duration) * 100
+      );
       setMinutesCurrent(getMinutesCurrent);
       setSecondsCurrent(getSecondsCurrent);
       setMinutesDuration(getMinutes);
       setSecondsDuration(getSeconds);
+      setValueCurrent(valueCurrent);
     }
   };
   const updateRealTime = setInterval(updateTime, 1000);
@@ -104,6 +109,7 @@ const FullView = (props) => {
                     type="range"
                     className="range"
                     name="vol"
+                    value={valueCurrent}
                     min="0"
                     max="100"
                   />
