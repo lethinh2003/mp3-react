@@ -39,7 +39,7 @@ const Navigation = () => {
       navLogoImg &&
       navOpen
     ) {
-      nav.style = "";
+      nav.style.width = "";
       navItemTitle.forEach((item) => {
         item.style = "";
       });

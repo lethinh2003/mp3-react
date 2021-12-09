@@ -1,178 +1,209 @@
 import "../styles/musicplayer.scss";
 import MenuRight from "../views/MenuRight";
-
+import FullView from "./FullView";
+import { MdQueueMusic } from "react-icons/md";
 import { useState, useEffect } from "react";
+import Loading from "./Loading";
 const MusicPlayer = () => {
-  const [isChooseMusic, setIsChooseMusic] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isChooseMusic, setIsChooseMusic] = useState(false);
   const [isFullView, setIsFullView] = useState(false);
+  const [fullView, setFullView] = useState();
   const [isOpenMenuRight, setIsOpenMenuRight] = useState(false);
   const [musicPlayer, setMusicPlayer] = useState();
   const [navDown, setNavDown] = useState();
   const [currentMusic, setCurrentMusic] = useState();
   const [musicInfo, setMusicInfo] = useState();
+  const [navi, setNavi] = useState();
+  const [menuRight, setMenuRight] = useState();
   useEffect(() => {
+    const navi = document.querySelector(".navigation");
     const musicPlayer = document.querySelector(".music-player");
     const musicInfo = document.querySelector(".music-info");
-    const navDown = document.querySelector(".nav-down");
+    const navDown = document.querySelector(".turn-off_fullview");
+    const menuRight = document.querySelector(".menu-right");
+    const fullView = document.querySelector(".fullview");
+    setFullView(fullView);
+    setMenuRight(menuRight);
+    setNavi(navi);
     setNavDown(navDown);
     setMusicPlayer(musicPlayer);
     setMusicInfo(musicInfo);
   }, []);
-  if (musicPlayer && isChooseMusic === false) {
+
+  if (musicPlayer && isChooseMusic === false && navi && menuRight) {
     musicPlayer.style = `transform: translateY(100%);`;
-  } else if (musicPlayer && isChooseMusic === true) {
+    navi.style.height = "100%";
+    menuRight.style.height = "100%";
+  } else if (musicPlayer && isChooseMusic === true && navi && menuRight) {
     musicPlayer.style = `transform: translateY(0);`;
+    navi.style.height = "";
+    menuRight.style.height = "";
   }
   const openFullScreenPlayer = async () => {
-    if (musicPlayer && navDown && isFullView === false) {
-      musicPlayer.style = await `transform: translateY(100%);`;
-      setTimeout(async function () {
-        musicPlayer.style = "";
+    if (musicPlayer && navDown && isFullView === false && fullView) {
+      musicPlayer.style = `transform: translateY(100%);`;
 
-        musicPlayer.style = `height: 100%; top: 0;background-image: linear-gradient(to right, #432275, rgba(41, 21, 71, 0.8));`;
-      }, 200);
-      navDown.style = `opacity: 1; visibility: visible;`;
+      fullView.style = `transform: translateY(0);`;
+
       setIsFullView(true);
-    } else if (musicPlayer && navDown && isFullView === true) {
-      document.addEventListener("click", function (e) {
-        if (e.target === navDown || e.target == navDown.firstElementChild) {
-          musicPlayer.style = "";
-          navDown.style = "";
-
-          setIsFullView(false);
-        }
-      });
     }
   };
+
   const handleOpenMenuRight = (e) => {
     e.stopPropagation();
     setIsOpenMenuRight(!isOpenMenuRight);
   };
-  const handleUpdateCurrentMusic = (data) => {
-    if (data) {
-      setCurrentMusic(data);
-      setIsChooseMusic(true);
+  const handleCloseFullView = (data) => {
+    if (musicPlayer && navDown && isFullView === true && fullView) {
+      fullView.style = `transform: translateY(100%);`;
+      musicPlayer.style = `transform: translateY(0);`;
+      setIsFullView(data);
     }
+  };
+  const testPromise = () => {
+    console.log("test promise");
+  };
+
+  const handleUpdateCurrentMusic = async (data) => {
+    await new Promise((resolve) => {
+      setIsLoading(true);
+      setTimeout(resolve, 200);
+    });
+
+    setCurrentMusic(data);
+    setIsChooseMusic(true);
+    setIsLoading(false);
   };
 
   return (
     <>
-      <div className="music-player" onClick={() => openFullScreenPlayer()}>
-        <div className="nav-down">
-          <i className="fa fa-chevron-down" aria-hidden="true"></i>
-        </div>
-        {currentMusic && (
-          <>
-            <div className="music-info">
-              <div className="cd">
-                <img src={currentMusic.image} alt="" />
+      {isLoading && <Loading />}
+      <FullView
+        currentMusic={currentMusic}
+        handleCloseFullView={handleCloseFullView}
+      />
+      <div className="open-playlist" onClick={(e) => handleOpenMenuRight(e)}>
+        <MdQueueMusic />
+      </div>
+      <div className="menu-bottom">
+        <div className="music-player" onClick={() => openFullScreenPlayer()}>
+          <div className="nav-down">
+            <i className="fa fa-chevron-down" aria-hidden="true"></i>
+          </div>
+          {currentMusic && (
+            <>
+              <div className="music-info">
+                <div className="cd">
+                  <img src={currentMusic.image} alt="" />
+                </div>
+                <div className="music-name">
+                  <span className="name">{currentMusic.name}</span>
+                  <span className="subtitle">{currentMusic.author}</span>
+                </div>
+                <div className="music-icon">
+                  <i className="fa fa-heart"></i>
+                  <i className="fa fa-ellipsis-h"></i>
+                </div>
               </div>
-              <div className="music-name">
-                <span className="name">{currentMusic.name}</span>
-                <span className="subtitle">{currentMusic.author}</span>
+              <div className="music-playing">
+                <div className="playbar-top">
+                  <i className="fa fa-random" aria-hidden="true"></i>
+                  <i className="fa fa-step-backward" aria-hidden="true"></i>
+                  <i
+                    className="fa play-icon fa-play-circle-o"
+                    style={{ fontSize: "40px" }}
+                    aria-hidden="true"
+                  ></i>
+                  <i className="fa fa-step-forward" aria-hidden="true"></i>
+                  <i className="fa fa-repeat" aria-hidden="true"></i>
+                </div>
+                <div className="playbar-bottom">
+                  <span className="time-left">00:00</span>
+                  <input
+                    type="range"
+                    className="range"
+                    name="vol"
+                    min="0"
+                    max="50"
+                  />
+                  <span className="time-right">00:00</span>
+                </div>
               </div>
-              <div className="music-icon">
-                <i className="fa fa-heart"></i>
-                <i className="fa fa-ellipsis-h"></i>
-              </div>
-            </div>
-            <div className="music-playing">
-              <div className="playbar-top">
-                <i className="fa fa-random" aria-hidden="true"></i>
-                <i className="fa fa-step-backward" aria-hidden="true"></i>
-                <i
-                  className="fa play-icon fa-play-circle-o"
-                  style={{ fontSize: "40px" }}
-                  aria-hidden="true"
-                ></i>
-                <i className="fa fa-step-forward" aria-hidden="true"></i>
-                <i className="fa fa-repeat" aria-hidden="true"></i>
-              </div>
-              <div className="playbar-bottom">
-                <span className="time-left">00:00</span>
-                <input
-                  type="range"
-                  className="range"
-                  name="vol"
-                  min="0"
-                  max="50"
-                />
-                <span className="time-right">00:00</span>
-              </div>
-            </div>
-            <div className="music-controler">
-              <i className="fa fa-volume-up" aria-hidden="true"></i>
+              <div className="music-controler">
+                <i className="fa fa-volume-up" aria-hidden="true"></i>
 
-              <i
-                className="fa fa-list-ul"
-                aria-hidden="true"
-                onClick={(e) => handleOpenMenuRight(e)}
-              ></i>
-            </div>
-          </>
-        )}
-        {!currentMusic && (
-          <>
-            <div
-              className="music-info"
-              style={{ opacity: "0", visibility: "hidden" }}
-            >
-              <div className="cd"></div>
-              <div className="music-name">
-                <span className="name">
-                  <i class="fa fa-spinner fa-spin"></i>
-                </span>
-                <span className="subtitle">
-                  <i class="fa fa-spinner fa-spin"></i>
-                </span>
-              </div>
-              <div className="music-icon">
-                <i className="fa fa-heart"></i>
-                <i className="fa fa-ellipsis-h"></i>
-              </div>
-            </div>
-            <div
-              className="music-playing"
-              style={{ opacity: "0", visibility: "hidden" }}
-            >
-              <div className="playbar-top">
-                <i className="fa fa-random" aria-hidden="true"></i>
-                <i className="fa fa-step-backward" aria-hidden="true"></i>
                 <i
-                  className="fa play-icon fa-play-circle-o"
-                  style={{ fontSize: "40px" }}
+                  className="fa fa-list-ul"
                   aria-hidden="true"
+                  onClick={(e) => handleOpenMenuRight(e)}
                 ></i>
-                <i className="fa fa-step-forward" aria-hidden="true"></i>
-                <i className="fa fa-repeat" aria-hidden="true"></i>
               </div>
-              <div className="playbar-bottom">
-                <span className="time-left">00:00</span>
-                <input
-                  type="range"
-                  className="range"
-                  name="vol"
-                  min="0"
-                  max="50"
-                />
-                <span className="time-right">00:00</span>
-              </div>
-            </div>
-            <div className="music-controler">
-              <i
-                className="fa fa-volume-up"
-                aria-hidden="true"
+            </>
+          )}
+          {!currentMusic && (
+            <>
+              <div
+                className="music-info"
                 style={{ opacity: "0", visibility: "hidden" }}
-              ></i>
+              >
+                <div className="cd"></div>
+                <div className="music-name">
+                  <span className="name">
+                    <i className="fa fa-spinner fa-spin"></i>
+                  </span>
+                  <span className="subtitle">
+                    <i className="fa fa-spinner fa-spin"></i>
+                  </span>
+                </div>
+                <div className="music-icon">
+                  <i className="fa fa-heart"></i>
+                  <i className="fa fa-ellipsis-h"></i>
+                </div>
+              </div>
+              <div
+                className="music-playing"
+                style={{ opacity: "0", visibility: "hidden" }}
+              >
+                <div className="playbar-top">
+                  <i className="fa fa-random" aria-hidden="true"></i>
+                  <i className="fa fa-step-backward" aria-hidden="true"></i>
+                  <i
+                    className="fa play-icon fa-play-circle-o"
+                    style={{ fontSize: "40px" }}
+                    aria-hidden="true"
+                  ></i>
+                  <i className="fa fa-step-forward" aria-hidden="true"></i>
+                  <i className="fa fa-repeat" aria-hidden="true"></i>
+                </div>
+                <div className="playbar-bottom">
+                  <span className="time-left">00:00</span>
+                  <input
+                    type="range"
+                    className="range"
+                    name="vol"
+                    min="0"
+                    max="50"
+                  />
+                  <span className="time-right">00:00</span>
+                </div>
+              </div>
+              <div className="music-controler">
+                <i
+                  className="fa fa-volume-up"
+                  aria-hidden="true"
+                  style={{ opacity: "0", visibility: "hidden" }}
+                ></i>
 
-              <i
-                className="fa fa-list-ul"
-                aria-hidden="true"
-                onClick={(e) => handleOpenMenuRight(e)}
-              ></i>
-            </div>
-          </>
-        )}
+                <i
+                  className="fa fa-list-ul"
+                  aria-hidden="true"
+                  onClick={(e) => handleOpenMenuRight(e)}
+                ></i>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       <MenuRight

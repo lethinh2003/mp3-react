@@ -27,7 +27,10 @@ const UserInfo = () => {
   ];
   const [currentQuotes, setCurrentQuotes] = useState("No Pain No Gain");
   useEffect(() => {
-    setInterval(randomQuotes, 5000);
+    const runQuotes = setInterval(randomQuotes, 5000);
+    return () => {
+      clearInterval(runQuotes);
+    };
   }, []);
 
   const randomQuotes = () => {
