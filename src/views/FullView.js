@@ -5,10 +5,10 @@ const FullView = (props) => {
   const [audioPlay, setAudioPlay] = useState();
   const [timeRight, setTimeRight] = useState();
   const [timeLeft, setTimeLeft] = useState();
-  const [minutesCurrent, setMinutesCurrent] = useState();
-  const [secondsCurrent, setSecondsCurrent] = useState();
-  const [minutesDuration, setMinutesDuration] = useState();
-  const [secondsDuration, setSecondsDuration] = useState();
+  const [minutesCurrent, setMinutesCurrent] = useState(0);
+  const [secondsCurrent, setSecondsCurrent] = useState(0);
+  const [minutesDuration, setMinutesDuration] = useState(0);
+  const [secondsDuration, setSecondsDuration] = useState(0);
   const [isAudioPlay, setIsAudioPlay] = useState(false);
 
   useEffect(() => {
@@ -21,7 +21,14 @@ const FullView = (props) => {
       setAudioPlay(audioPlay);
       setIsAudioPlay(true);
 
-      audioPlay.play();
+      const audioPromise = audioPlay.play();
+      if (audioPromise !== undefined) {
+        audioPromise
+          .then((_) => {
+            audioPlay.play();
+          })
+          .catch((error) => {});
+      }
     }
   }, [currentMusic]);
 
