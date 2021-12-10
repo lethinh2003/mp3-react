@@ -46,7 +46,7 @@ const UserInfo = () => {
 
   return (
     <>
-      <div className="user-info">
+      <div className="user-info mg-bt-20px">
         <div className="user-avt">
           <img src="https://lethinh2003.xyz/upload/avatar_4965.png" alt="" />
         </div>

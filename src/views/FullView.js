@@ -1,5 +1,6 @@
 import "../styles/fullview.scss";
 import { useState, useEffect } from "react";
+import { BiVolumeFull, BiVolumeLow, BiVolumeMute } from "react-icons/bi";
 const FullView = (props) => {
   const PlayList = [
     {
@@ -43,18 +44,8 @@ const FullView = (props) => {
       category: "JP",
     },
   ];
-  const { currentMusic, handleCloseFullView } = props;
-  // audioPlay,
-  // timeRight,
-  // timeLeft,
-  // iconRepeat,
-  // minutesCurrent,
-  // secondsCurrent,
-  // minutesDuration,
-  // secondsDuration,
-  // valueCurrent,
-  // isAudioPlay,
-  // isRepeatMusic,
+  const { currentMusic, handleCloseFullView, handleUpdateStatusAudio } = props;
+
   const [audioPlay, setAudioPlay] = useState();
   const [timeRight, setTimeRight] = useState();
   const [timeLeft, setTimeLeft] = useState();
@@ -64,6 +55,8 @@ const FullView = (props) => {
   const [minutesDuration, setMinutesDuration] = useState(0);
   const [secondsDuration, setSecondsDuration] = useState(0);
   const [valueCurrent, setValueCurrent] = useState(0);
+  const [deg, setDeg] = useState(0);
+  const [musicVolume, setMusicVolume] = useState(1);
   const [isAudioPlay, setIsAudioPlay] = useState(false);
   const [isRepeatMusic, setIsRepeatMusi] = useState(false);
 
@@ -84,6 +77,7 @@ const FullView = (props) => {
         audioPromise
           .then((_) => {
             audioPlay.play();
+            handleUpdateStatusAudio(true);
           })
           .catch((error) => {});
       }
@@ -97,6 +91,7 @@ const FullView = (props) => {
     if (valueCurrent >= 100) {
       audioPlay.currentTime = 0;
       audioPlay.pause();
+      handleUpdateStatusAudio(false);
     }
   }
 
@@ -151,10 +146,22 @@ const FullView = (props) => {
       if (isAudioPlay) {
         setIsAudioPlay(false);
         audioPlay.pause();
+        handleUpdateStatusAudio(false);
       } else {
         setIsAudioPlay(true);
+        handleUpdateStatusAudio(true);
         audioPlay.play();
       }
+    }
+  };
+  const handleChangeVolume = (e) => {
+    const volumnIcon = document.querySelector(".volumn-icon");
+    const volumeFull = <BiVolumeFull />;
+    const volumeLow = <BiVolumeLow />;
+    const volumeMute = BiVolumeMute;
+    if (audioPlay) {
+      setMusicVolume(e.target.value);
+      audioPlay.volume = e.target.value;
     }
   };
 
@@ -182,6 +189,26 @@ const FullView = (props) => {
             </div>
             <div className="music-player">
               <div className="music-playing">
+                <div className="music-controler">
+                  <div className="volumn-icon">
+                    {musicVolume >= 1 ? (
+                      <BiVolumeFull />
+                    ) : musicVolume > 0 && musicVolume < 1 ? (
+                      <BiVolumeLow />
+                    ) : (
+                      <BiVolumeMute />
+                    )}
+                  </div>
+                  <input
+                    onChange={(e) => handleChangeVolume(e)}
+                    type="range"
+                    id="volumn"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={musicVolume}
+                  ></input>
+                </div>
                 <div className="playbar-bottom">
                   <span className="time-left">
                     {minutesCurrent}:{secondsCurrent}

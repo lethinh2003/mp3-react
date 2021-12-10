@@ -3,9 +3,7 @@ import MenuRight from "../views/MenuRight";
 import FullView from "./FullView";
 import { MdQueueMusic } from "react-icons/md";
 import { useState, useEffect } from "react";
-import Loading from "./Loading";
 const MusicPlayer = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [isChooseMusic, setIsChooseMusic] = useState(false);
   const [isFullView, setIsFullView] = useState(false);
   const [fullView, setFullView] = useState();
@@ -16,21 +14,10 @@ const MusicPlayer = () => {
   const [musicInfo, setMusicInfo] = useState();
   const [navi, setNavi] = useState();
   const [menuRight, setMenuRight] = useState();
+  const [cd, setCd] = useState();
+  const [deg, setDeg] = useState(0);
 
-  ////Menu music
-  const [audioPlay, setAudioPlay] = useState();
-  const [timeRight, setTimeRight] = useState();
-  const [timeLeft, setTimeLeft] = useState();
-  const [iconRepeat, setIconRepeat] = useState();
-  const [minutesCurrent, setMinutesCurrent] = useState(0);
-  const [secondsCurrent, setSecondsCurrent] = useState(0);
-  const [minutesDuration, setMinutesDuration] = useState(0);
-  const [secondsDuration, setSecondsDuration] = useState(0);
-  const [valueCurrent, setValueCurrent] = useState(0);
   const [isAudioPlay, setIsAudioPlay] = useState(false);
-  const [isRepeatMusic, setIsRepeatMusi] = useState(false);
-
-  ///
 
   useEffect(() => {
     const navi = document.querySelector(".navigation");
@@ -39,6 +26,8 @@ const MusicPlayer = () => {
     const navDown = document.querySelector(".turn-off_fullview");
     const menuRight = document.querySelector(".menu-right");
     const fullView = document.querySelector(".fullview");
+    const cd = document.querySelector(".cd");
+    setCd(cd);
     setFullView(fullView);
     setMenuRight(menuRight);
     setNavi(navi);
@@ -46,6 +35,18 @@ const MusicPlayer = () => {
     setMusicPlayer(musicPlayer);
     setMusicInfo(musicInfo);
   }, []);
+  // useEffect(() => {
+  //   if (cd) {
+  //     const increaseDeg = deg + 1;
+  //     setDeg(increaseDeg);
+  //     console.log(increaseDeg);
+  //     console.log("isplay");
+  //     cd.style.transform = `rotate(${deg}deg)`;
+  //   }
+  // }, [isAudioPlay]);
+  const handleUpdateDeg = (data) => {
+    setDeg(data);
+  };
 
   if (musicPlayer && isChooseMusic === false && navi && menuRight) {
     musicPlayer.style = `transform: translateY(100%);`;
@@ -77,45 +78,45 @@ const MusicPlayer = () => {
       setIsFullView(data);
     }
   };
+  // let deg = 0;
 
-  const handleUpdateCurrentMusic = async (data) => {
-    await new Promise((resolve) => {
-      setIsLoading(true);
+  // const runRotageCd = setInterval(() => {
+  //   if (isAudioPlay === true) {
+  //     if (cd) {
+  //       if (deg >= 360 && deg < 0) {
+  //         deg = 0;
+  //         setIsAudioPlay(false);
+  //       }
 
-      setTimeout(resolve, 200);
-    });
-
+  //       console.log(deg);
+  //       cd.style.transform = `rotate(${deg}deg)`;
+  //       deg += 1;
+  //     }
+  //   } else {
+  //     clearInterval(runRotageCd);
+  //   }
+  // }, 100);
+  const handleUpdateCurrentMusic = (data) => {
     setCurrentMusic(data);
     setIsChooseMusic(true);
-    setIsLoading(false);
+  };
+  const handleUpdateStatusAudio = (data) => {
+    setIsAudioPlay(data);
   };
 
   return (
     <>
-      {isLoading && <Loading />}
       <FullView
         currentMusic={currentMusic}
         handleCloseFullView={handleCloseFullView}
-        audioPlay={audioPlay}
-        timeRight={timeRight}
-        timeLeft={timeLeft}
-        iconRepeat={iconRepeat}
-        minutesCurrent={minutesCurrent}
-        secondsCurrent={secondsCurrent}
-        minutesDuration={minutesDuration}
-        secondsDuration={secondsDuration}
-        valueCurrent={valueCurrent}
-        isAudioPlay={isAudioPlay}
-        isRepeatMusic={isRepeatMusic}
+        handleUpdateStatusAudio={handleUpdateStatusAudio}
+        handleUpdateDeg={handleUpdateDeg}
       />
       <div className="open-playlist" onClick={(e) => handleOpenMenuRight(e)}>
         <MdQueueMusic />
       </div>
       <div className="menu-bottom">
         <div className="music-player" onClick={() => openFullScreenPlayer()}>
-          <div className="nav-down">
-            <i className="fa fa-chevron-down" aria-hidden="true"></i>
-          </div>
           {currentMusic && (
             <>
               <div className="music-info">
@@ -131,7 +132,7 @@ const MusicPlayer = () => {
                   <i className="fa fa-ellipsis-h"></i>
                 </div>
               </div>
-              <div className="music-playing">
+              {/* <div className="music-playing">
                 <div className="playbar-top">
                   <i className="fa fa-random" aria-hidden="true"></i>
                   <i className="fa fa-step-backward" aria-hidden="true"></i>
@@ -154,8 +155,8 @@ const MusicPlayer = () => {
                   />
                   <span className="time-right">00:00</span>
                 </div>
-              </div>
-              <div className="music-controler">
+              </div> */}
+              {/* <div className="music-controler">
                 <i className="fa fa-volume-up" aria-hidden="true"></i>
 
                 <i
@@ -163,7 +164,7 @@ const MusicPlayer = () => {
                   aria-hidden="true"
                   onClick={(e) => handleOpenMenuRight(e)}
                 ></i>
-              </div>
+              </div> */}
             </>
           )}
           {!currentMusic && (

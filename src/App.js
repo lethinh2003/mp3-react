@@ -2,7 +2,7 @@ import "./styles/body.scss";
 import Navigation from "./views/Navigation";
 import MusicPlayer from "./views/MusicPlayer";
 import MainPage from "./views/MainPage";
-import Music from "./api/Music";
+
 import "./styles/loading.scss";
 
 function App() {
@@ -11,7 +11,6 @@ function App() {
       <Navigation />
       <MainPage />
       <MusicPlayer />
-      <Music />
     </>
   );
 }

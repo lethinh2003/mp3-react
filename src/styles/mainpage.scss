@@ -1,5 +1,5 @@
 .mainpage {
-  max-width: calc(100% - 240px);
+  width: calc(100% - 240px);
   min-height: 100%;
   position: absolute;
   top: 0;
@@ -7,7 +7,6 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  padding: 0 50px;
 }
 .user-info {
   display: flex;
@@ -128,7 +127,7 @@
 }
 @media only screen and (max-width: 768px) {
   .mainpage {
-    max-width: calc(100% - 50px);
+    width: calc(100% - 50px);
     align-items: center;
     padding: 0;
   }

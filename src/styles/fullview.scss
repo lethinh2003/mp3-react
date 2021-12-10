@@ -147,9 +147,15 @@
     }
     & .music-controler {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      width: 100px;
+      & #volumn {
+        height: 3px;
+        width: 70px;
+      }
+      & .volume-icon {
+        display: inherit;
+      }
     }
   }
 }
