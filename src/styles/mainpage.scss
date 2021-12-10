@@ -123,8 +123,7 @@
   font-size: 13px;
   color: #635e6b;
 }
-.title {
-}
+
 @media only screen and (max-width: 768px) {
   .mainpage {
     width: calc(100% - 50px);
@@ -136,6 +135,9 @@
     & .category-item {
       height: 130px;
       width: 150px;
+      & .item-thumbnail {
+        height: 108px;
+      }
     }
   }
 }

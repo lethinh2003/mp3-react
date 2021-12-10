@@ -2,6 +2,8 @@ import "../styles/menuright.scss";
 import Loading from "./Loading";
 import APIMusic from "../api/APIMusic";
 import { useState, useEffect } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 const MenuRight = (props) => {
   const [openMenuRight, setOpenMenuRight] = useState();
   const [menuRight, setMenuRight] = useState();
@@ -29,17 +31,86 @@ const MenuRight = (props) => {
 
     if (data) {
       handleUpdateCurrentMusic(data);
-
-      // handleUpdateCurrentMusic(data);
       setOrder(data.id);
     }
   };
 
   return (
     <>
-      {isLoading && <Loading />}
+      {/* {isLoading && <Loading />} */}
       <div className="menu-right">
         <div className="menu-list">
+          {isLoading && (
+            <>
+              <SkeletonTheme baseColor="#464646" highlightColor="#191420">
+                <div className="menu-pre">
+                  <div className="pre-thumbnail">
+                    <Skeleton height={40} width={40} />
+                  </div>
+                  <div className="pre-info">
+                    <span className="pre-name">
+                      <Skeleton width={150} />
+                    </span>
+                    <span className="pre-artis">
+                      <Skeleton width={150} />
+                    </span>
+                  </div>
+                </div>
+                <div className="menu-pre">
+                  <div className="pre-thumbnail">
+                    <Skeleton height={40} width={40} />
+                  </div>
+                  <div className="pre-info">
+                    <span className="pre-name">
+                      <Skeleton width={150} />
+                    </span>
+                    <span className="pre-artis">
+                      <Skeleton width={150} />
+                    </span>
+                  </div>
+                </div>
+                <div className="menu-pre">
+                  <div className="pre-thumbnail">
+                    <Skeleton height={40} width={40} />
+                  </div>
+                  <div className="pre-info">
+                    <span className="pre-name">
+                      <Skeleton width={150} />
+                    </span>
+                    <span className="pre-artis">
+                      <Skeleton width={150} />
+                    </span>
+                  </div>
+                </div>
+                <div className="menu-pre">
+                  <div className="pre-thumbnail">
+                    <Skeleton height={40} width={40} />
+                  </div>
+                  <div className="pre-info">
+                    <span className="pre-name">
+                      <Skeleton width={150} />
+                    </span>
+                    <span className="pre-artis">
+                      <Skeleton width={150} />
+                    </span>
+                  </div>
+                </div>
+                <div className="menu-pre">
+                  <div className="pre-thumbnail">
+                    <Skeleton height={40} width={40} />
+                  </div>
+                  <div className="pre-info">
+                    <span className="pre-name">
+                      <Skeleton width={150} />
+                    </span>
+                    <span className="pre-artis">
+                      <Skeleton width={150} />
+                    </span>
+                  </div>
+                </div>
+              </SkeletonTheme>
+            </>
+          )}
           {dataMusic &&
             dataMusic.length > 0 &&
             dataMusic.map((item) => {

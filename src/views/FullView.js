@@ -155,10 +155,6 @@ const FullView = (props) => {
     }
   };
   const handleChangeVolume = (e) => {
-    const volumnIcon = document.querySelector(".volumn-icon");
-    const volumeFull = <BiVolumeFull />;
-    const volumeLow = <BiVolumeLow />;
-    const volumeMute = BiVolumeMute;
     if (audioPlay) {
       setMusicVolume(e.target.value);
       audioPlay.volume = e.target.value;
@@ -190,7 +186,7 @@ const FullView = (props) => {
             <div className="music-player">
               <div className="music-playing">
                 <div className="music-controler">
-                  <div className="volumn-icon">
+                  <div className="volume-icon">
                     {musicVolume >= 1 ? (
                       <BiVolumeFull />
                     ) : musicVolume > 0 && musicVolume < 1 ? (
