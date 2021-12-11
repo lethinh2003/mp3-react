@@ -108,7 +108,6 @@ const FullView = (props) => {
     };
     const updateRealTime = setInterval(updateTime, 100);
     if (audioPlay && isRepeatMusic === true && valueCurrent) {
-      console.log("repeat");
       if (valueCurrent >= 100) {
         audioPlay.currentTime = 0;
       }

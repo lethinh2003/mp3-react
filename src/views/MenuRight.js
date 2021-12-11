@@ -6,25 +6,39 @@ import "react-loading-skeleton/dist/skeleton.css";
 const MenuRight = (props) => {
   const [openMenuRight, setOpenMenuRight] = useState();
   const [menuRight, setMenuRight] = useState();
+
   const [order, setOrder] = useState();
   const {
+    currentMusic,
     isOpenMenuRight,
     handleUpdateCurrentMusic,
     handleUpdateNextMusic,
     handleUpdatePreviousMusic,
   } = props;
+
   const { data: dataMusic, isLoading } = APIMusic("getMusicList", 2000);
   useEffect(() => {
     const menuRight = document.querySelector(".menu-right");
+
     setOpenMenuRight(openMenuRight);
     setMenuRight(menuRight);
   }, []);
+  useEffect(() => {
+    if (currentMusic) {
+      const menuPre = document.querySelectorAll(".menu-pre");
+      if (menuPre && menuPre.length > 0) {
+        menuPre.forEach((item) => {
+          item.classList.remove("active");
+        });
+      }
+    }
+  }, [currentMusic]);
   if (isOpenMenuRight === true && menuRight) {
     menuRight.style = `transform: translateX(0); height: 100%`;
   } else if (isOpenMenuRight === false && menuRight) {
     menuRight.style = `transform: translateX(100%); height: 100%`;
   }
-  const handleChangeMusic = async (data, e) => {
+  const handleChangeMusic = (data, e) => {
     const menuPre = document.querySelectorAll(".menu-pre");
     if (menuPre && menuPre.length > 0) {
       menuPre.forEach((item) => {
@@ -43,7 +57,6 @@ const MenuRight = (props) => {
 
   return (
     <>
-      {/* {isLoading && <Loading />} */}
       <div className="menu-right">
         <div className="menu-list">
           {isLoading && (
@@ -124,6 +137,19 @@ const MenuRight = (props) => {
                 <>
                   <div
                     className="menu-pre"
+                    style={
+                      currentMusic && currentMusic.id === item.id
+                        ? {
+                            backgroundColor: "#7200a1",
+                            borderRadius: "5px",
+                            opacity: "1",
+                          }
+                        : {
+                            backgroundColor: "",
+                            borderRadius: "",
+                            opacity: "",
+                          }
+                    }
                     onClick={(e) => handleChangeMusic(item, e)}
                     key={item.id}
                   >

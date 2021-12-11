@@ -121,6 +121,7 @@ const MusicPlayer = () => {
       </div>
 
       <MenuRight
+        currentMusic={currentMusic}
         isOpenMenuRight={isOpenMenuRight}
         handleUpdateCurrentMusic={handleUpdateCurrentMusic}
         handleUpdateNextMusic={handleUpdateNextMusic}
