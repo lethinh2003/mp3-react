@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-const APIMusic = (type) => {
+const APIMusic = (type, duration) => {
   const [data, setData] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const Category = [
@@ -72,10 +72,17 @@ const APIMusic = (type) => {
           if (type === "getMusicList") {
             setData(PlayList);
           }
+          if (type === "getNewMusicList") {
+            const newList = PlayList.filter((item) => {
+              return item.id > PlayList.length / 2;
+            });
+
+            setData(newList);
+          }
           if (type === "getMusicCategory") {
             setData(Category);
           }
-        }, 2000);
+        }, duration);
       }).then(() => {
         setisLoading(false);
       });

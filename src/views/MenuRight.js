@@ -1,5 +1,4 @@
 import "../styles/menuright.scss";
-import Loading from "./Loading";
 import APIMusic from "../api/APIMusic";
 import { useState, useEffect } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
@@ -8,8 +7,13 @@ const MenuRight = (props) => {
   const [openMenuRight, setOpenMenuRight] = useState();
   const [menuRight, setMenuRight] = useState();
   const [order, setOrder] = useState();
-  const { isOpenMenuRight, handleUpdateCurrentMusic } = props;
-  const { data: dataMusic, isLoading } = APIMusic("getMusicList");
+  const {
+    isOpenMenuRight,
+    handleUpdateCurrentMusic,
+    handleUpdateNextMusic,
+    handleUpdatePreviousMusic,
+  } = props;
+  const { data: dataMusic, isLoading } = APIMusic("getMusicList", 2000);
   useEffect(() => {
     const menuRight = document.querySelector(".menu-right");
     setOpenMenuRight(openMenuRight);
@@ -31,6 +35,8 @@ const MenuRight = (props) => {
 
     if (data) {
       handleUpdateCurrentMusic(data);
+      handleUpdateNextMusic(data);
+      handleUpdatePreviousMusic(data);
       setOrder(data.id);
     }
   };

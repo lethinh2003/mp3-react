@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const NewMusic = () => {
-  const { data: dataMusic, isLoading } = APIMusic("getMusicList");
+  const { data: dataMusic, isLoading } = APIMusic("getNewMusicList", 1000);
   const handleChangeMusic = (data) => {
     console.log(data);
   };

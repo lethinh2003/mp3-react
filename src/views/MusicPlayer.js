@@ -2,8 +2,10 @@ import "../styles/musicplayer.scss";
 import MenuRight from "../views/MenuRight";
 import FullView from "./FullView";
 import { MdQueueMusic } from "react-icons/md";
+import APIMusic from "../api/APIMusic";
 import { useState, useEffect } from "react";
 const MusicPlayer = () => {
+  const { data: dataListMusic, isLoading } = APIMusic("getMusicList", 2000);
   const [isChooseMusic, setIsChooseMusic] = useState(false);
   const [isFullView, setIsFullView] = useState(false);
   const [fullView, setFullView] = useState();
@@ -11,6 +13,8 @@ const MusicPlayer = () => {
   const [musicPlayer, setMusicPlayer] = useState();
   const [navDown, setNavDown] = useState();
   const [currentMusic, setCurrentMusic] = useState();
+  const [previousMusic, setPreviousMusic] = useState();
+  const [nextMusic, setNextMusic] = useState();
   const [musicInfo, setMusicInfo] = useState();
   const [navi, setNavi] = useState();
   const [menuRight, setMenuRight] = useState();
@@ -71,6 +75,13 @@ const MusicPlayer = () => {
     setCurrentMusic(data);
     setIsChooseMusic(true);
   };
+
+  const handleUpdatePreviousMusic = (data) => {
+    setPreviousMusic(data);
+  };
+  const handleUpdateNextMusic = (data) => {
+    setNextMusic(data);
+  };
   const handleUpdateStatusAudio = (data) => {
     setIsAudioPlay(data);
   };
@@ -81,6 +92,8 @@ const MusicPlayer = () => {
         currentMusic={currentMusic}
         handleCloseFullView={handleCloseFullView}
         handleUpdateStatusAudio={handleUpdateStatusAudio}
+        listCurrentMusic={dataListMusic}
+        handleSetCurrentMusic={handleUpdateCurrentMusic}
       />
       <div className="open-playlist" onClick={(e) => handleOpenMenuRight(e)}>
         <MdQueueMusic />
@@ -110,6 +123,8 @@ const MusicPlayer = () => {
       <MenuRight
         isOpenMenuRight={isOpenMenuRight}
         handleUpdateCurrentMusic={handleUpdateCurrentMusic}
+        handleUpdateNextMusic={handleUpdateNextMusic}
+        handleUpdatePreviousMusic={handleUpdatePreviousMusic}
       />
     </>
   );

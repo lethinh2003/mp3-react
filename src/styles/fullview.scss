@@ -6,11 +6,7 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-image: linear-gradient(
-    to right,
-    rgb(67, 34, 117),
-    rgb(59, 21, 116)
-  );
+  background-image: linear-gradient(to right, #201b26, #59427c38);
   z-index: 999;
   & .turn-off_fullview {
     top: 0;

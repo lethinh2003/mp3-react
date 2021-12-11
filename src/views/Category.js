@@ -3,7 +3,10 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState, useEffect } from "react";
 const Category = () => {
-  const { data: dataCategoryMusic, isLoading } = APIMusic("getMusicCategory");
+  const { data: dataCategoryMusic, isLoading } = APIMusic(
+    "getMusicCategory",
+    1500
+  );
 
   return (
     <>
