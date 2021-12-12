@@ -106,19 +106,30 @@ const FullView = (props) => {
         setValueCurrent(valueCurrent);
       }
     };
-    const updateRealTime = setInterval(updateTime, 100);
     if (audioPlay && isRepeatMusic === true && valueCurrent) {
       if (valueCurrent >= 100) {
-        audioPlay.currentTime = 0;
+        const solveProblemRepeat = new Promise((resolve, reject) => {
+          audioPlay.pause();
+
+          resolve();
+        })
+          .then(() => {
+            audioPlay.play();
+          })
+          .then(() => {
+            audioPlay.currentTime = 0;
+          });
       }
     } else if (audioPlay && isRepeatMusic === false && valueCurrent) {
       if (valueCurrent >= 100) {
-        audioPlay.currentTime = 0;
         audioPlay.pause();
+        audioPlay.currentTime = 0;
+
         setIsAudioPlay(false);
         handleUpdateStatusAudio(false);
       }
     }
+    const updateRealTime = setInterval(updateTime, 100);
 
     return () => {
       clearInterval(updateRealTime);
@@ -166,6 +177,7 @@ const FullView = (props) => {
   const handleClickNext = () => {
     handleSetCurrentMusic(nextMusic);
   };
+
   return (
     <>
       <div className="fullview">
@@ -176,17 +188,60 @@ const FullView = (props) => {
           <i className="fa fa-chevron-down" aria-hidden="true"></i>
         </div>
 
-        {currentMusic && (
+        {typeof currentMusic === "object" && (
           <>
             <audio id="audio" src={currentMusic.link}></audio>
-            <div className="info-current_music">
-              <div className="thumbnail-current">
-                <img src={currentMusic.image} />
+            <div className="list_music_current">
+              {typeof previousMusic === "object" && (
+                <div className="info-current_music previous">
+                  <div className="thumbnail-current">
+                    <div className="item-thumbnail_hover"></div>
+                    <div
+                      class="item-play_icon"
+                      onClick={() => handleClickPrevious()}
+                    >
+                      <i class="fa fa-play" aria-hidden="true"></i>
+                    </div>
+                    <img src={previousMusic.image} />
+                  </div>
+                  <div className="desc-current">
+                    <span className="music_name">{previousMusic.name}</span>
+                    <span className="music_author">{previousMusic.author}</span>
+                  </div>
+                </div>
+              )}
+              <div className="info-current_music">
+                <div className="thumbnail-current">
+                  <div className="item-thumbnail_hover"></div>
+                  <div class="item-play_icon">
+                    <i class="fa fa-play" aria-hidden="true"></i>
+                  </div>
+                  <img src={currentMusic.image} />
+                </div>
+
+                <div className="desc-current">
+                  <span className="music_name">{currentMusic.name}</span>
+                  <span className="music_author">{currentMusic.author}</span>
+                </div>
               </div>
-              <div className="desc-current">
-                <span className="music_name">{currentMusic.name}</span>
-                <span className="music_author">{currentMusic.author}</span>
-              </div>
+              {typeof nextMusic === "object" && (
+                <div className="info-current_music next">
+                  <div className="thumbnail-current">
+                    <div className="item-thumbnail_hover"></div>
+                    <div
+                      class="item-play_icon"
+                      onClick={() => handleClickNext()}
+                    >
+                      <i class="fa fa-play" aria-hidden="true"></i>
+                    </div>
+                    <img src={nextMusic.image} />
+                  </div>
+                  <div className="desc-current">
+                    <span className="music_name">{nextMusic.name}</span>
+                    <span className="music_author">{nextMusic.author}</span>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="music-player">
               <div className="music-playing">
@@ -249,7 +304,10 @@ const FullView = (props) => {
                     <i
                       className="fa play-icon fa-pause-circle-o"
                       onClick={() => handleOnOffMusic()}
-                      style={{ fontSize: "40px", color: " rgb(181, 95, 226)" }}
+                      style={{
+                        fontSize: "40px",
+                        color: " rgb(181, 95, 226)",
+                      }}
                       aria-hidden="true"
                     ></i>
                   )}
