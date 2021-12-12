@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { BiVolumeFull, BiVolumeLow, BiVolumeMute } from "react-icons/bi";
 import { TiChartBar } from "react-icons/ti";
 import iconPlaying from "./images/playing.gif";
+import NewMusic from "./NewMusic";
 const FullView = (props) => {
   const newStore = {
     repeatMusic: true,
   };
   localStorage.setItem("repeatMusic", JSON.stringify(newStore));
   const getStore = JSON.parse(localStorage.getItem("repeatMusic")).repeatMusic;
-  const {
+  let {
     handleSetCurrentMusic,
     currentMusic,
     handleCloseFullView,
@@ -23,6 +24,7 @@ const FullView = (props) => {
   const [timeRight, setTimeRight] = useState();
   const [timeLeft, setTimeLeft] = useState();
   const [iconRepeat, setIconRepeat] = useState();
+  const [iconAutoNext, setIconAutoNext] = useState();
   const [minutesCurrent, setMinutesCurrent] = useState(0);
   const [secondsCurrent, setSecondsCurrent] = useState(0);
   const [minutesDuration, setMinutesDuration] = useState(0);
@@ -31,36 +33,17 @@ const FullView = (props) => {
   const [musicVolume, setMusicVolume] = useState(1);
   const [isAudioPlay, setIsAudioPlay] = useState(false);
   const [isRepeatMusic, setIsRepeatMusic] = useState(false);
+  const [isAutoNext, setIsAutoNext] = useState(false);
 
   useEffect(() => {
-    if (listCurrentMusic) {
-      let getNextMusic = [...listCurrentMusic].filter((item) => {
-        if (currentMusic.id === listCurrentMusic.length) {
-          return item.id === 1;
-        } else {
-          return item.id === currentMusic.id + 1;
-        }
-      });
-      let getPreviousMusic = [...listCurrentMusic].filter((item) => {
-        if (currentMusic.id === 1) {
-          return item.id === listCurrentMusic.length;
-        } else {
-          return item.id === currentMusic.id - 1;
-        }
-      });
-      getNextMusic.map((item) => {
-        setNextMusic(item);
-      });
-      getPreviousMusic.map((item) => {
-        setPreviousMusic(item);
-      });
-    }
     if (currentMusic) {
       document.title = currentMusic.name;
       const audioPlay = document.querySelector("audio");
       const timeRight = document.querySelector(".time-right");
       const timeLeft = document.querySelector(".time-left");
       const iconRepeat = document.querySelector(".fa-repeat");
+      const iconAutoNext = document.querySelector(".fa-random");
+      setIconAutoNext(iconAutoNext);
       setIconRepeat(iconRepeat);
       setTimeLeft(timeLeft);
       setTimeRight(timeRight);
@@ -75,6 +58,32 @@ const FullView = (props) => {
             handleUpdateStatusAudio(true);
           })
           .catch((error) => {});
+      }
+    }
+  }, [currentMusic]);
+  useEffect(() => {
+    if (currentMusic) {
+      if (listCurrentMusic) {
+        let getNextMusic = [...listCurrentMusic].filter((item) => {
+          if (currentMusic.id === listCurrentMusic.length) {
+            return item.id === 1;
+          } else {
+            return item.id === currentMusic.id + 1;
+          }
+        });
+        let getPreviousMusic = [...listCurrentMusic].filter((item) => {
+          if (currentMusic.id === 1) {
+            return item.id === listCurrentMusic.length;
+          } else {
+            return item.id === currentMusic.id - 1;
+          }
+        });
+        getNextMusic.map((item) => {
+          setNextMusic(item);
+        });
+        getPreviousMusic.map((item) => {
+          setPreviousMusic(item);
+        });
       }
     }
   }, [currentMusic]);
@@ -138,6 +147,7 @@ const FullView = (props) => {
       clearInterval(updateRealTime);
     };
   });
+
   const handleChangeValue = (e) => {
     const changeValue = (audioPlay.duration / 100) * e.target.value;
     setValueCurrent(e.target.value);
@@ -180,6 +190,17 @@ const FullView = (props) => {
   const handleClickNext = () => {
     handleSetCurrentMusic(nextMusic);
   };
+  const handleAutoNext = () => {
+    if (iconAutoNext) {
+      if (isAutoNext === false) {
+        iconAutoNext.style.color = `rgb(181, 95, 226)`;
+      } else if (isAutoNext === true) {
+        iconAutoNext.style.color = ``;
+      }
+
+      setIsAutoNext(!isAutoNext);
+    }
+  };
 
   return (
     <>
@@ -200,11 +221,11 @@ const FullView = (props) => {
                   <div className="thumbnail-current">
                     <div className="item-thumbnail_hover"></div>
                     <div
-                      class="item-play_icon"
+                      className="item-play_icon"
                       style={{ width: "100px", height: "100px" }}
                       onClick={() => handleClickPrevious()}
                     >
-                      <i class="fa fa-play big-icon" aria-hidden="true"></i>
+                      <i className="fa fa-play big-icon" aria-hidden="true"></i>
                     </div>
                     <img src={previousMusic.image} />
                   </div>
@@ -223,15 +244,18 @@ const FullView = (props) => {
                     </div>
                   )}
                   <div
-                    class="item-play_icon"
+                    className="item-play_icon"
                     style={{ width: "100px", height: "100px" }}
                     onClick={() => handleOnOffMusic()}
                   >
                     {isAudioPlay === false && (
-                      <i class="fa fa-play big-icon" aria-hidden="true"></i>
+                      <i className="fa fa-play big-icon" aria-hidden="true"></i>
                     )}
                     {isAudioPlay === true && (
-                      <i class="fa fa-pause big-icon" aria-hidden="true"></i>
+                      <i
+                        className="fa fa-pause big-icon"
+                        aria-hidden="true"
+                      ></i>
                     )}
                   </div>
                   <img src={currentMusic.image} />
@@ -247,11 +271,11 @@ const FullView = (props) => {
                   <div className="thumbnail-current">
                     <div className="item-thumbnail_hover"></div>
                     <div
-                      class="item-play_icon"
+                      className="item-play_icon"
                       style={{ width: "100px", height: "100px" }}
                       onClick={() => handleClickNext()}
                     >
-                      <i class="fa fa-play big-icon" aria-hidden="true"></i>
+                      <i className="fa fa-play big-icon" aria-hidden="true"></i>
                     </div>
                     <img src={nextMusic.image} />
                   </div>
@@ -305,7 +329,11 @@ const FullView = (props) => {
                   )}
                 </div>
                 <div className="playbar-top">
-                  <i className="fa fa-random" aria-hidden="true"></i>
+                  <i
+                    className="fa fa-random"
+                    aria-hidden="true"
+                    onClick={() => handleAutoNext()}
+                  ></i>
                   <i
                     className="fa fa-step-backward"
                     aria-hidden="true"

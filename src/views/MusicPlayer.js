@@ -39,16 +39,17 @@ const MusicPlayer = () => {
     setMusicPlayer(musicPlayer);
     setMusicInfo(musicInfo);
   }, []);
-
-  if (musicPlayer && isChooseMusic === false && navi && menuRight) {
-    musicPlayer.style = `transform: translateY(100%);`;
-    navi.style.height = "100%";
-    menuRight.style.height = "100%";
-  } else if (musicPlayer && isChooseMusic === true && navi && menuRight) {
-    musicPlayer.style = ` transform: translateY(0);`;
-    navi.style.height = "";
-    menuRight.style.height = "";
-  }
+  useEffect(() => {
+    if (musicPlayer && isChooseMusic === false && navi && menuRight) {
+      musicPlayer.style = `transform: translateY(100%);`;
+      navi.style.height = "100%";
+      menuRight.style.height = "100%";
+    } else if (musicPlayer && isChooseMusic === true && navi && menuRight) {
+      musicPlayer.style = ` transform: translateY(0);`;
+      navi.style.height = "";
+      menuRight.style.height = "";
+    }
+  });
   const openFullScreenPlayer = () => {
     if (musicPlayer && navDown && isFullView === false && fullView) {
       musicPlayer.style = ` transform: translateY(100%);`;
