@@ -216,7 +216,7 @@ const FullView = (props) => {
               )}
               <div className="info-current_music">
                 <div className="thumbnail-current">
-                  <div className="item-thumbnail_hover"></div>\
+                  <div className="item-thumbnail_hover"></div>
                   {isAudioPlay === true && (
                     <div className="item-playing_icon">
                       <img src={iconPlaying} />
