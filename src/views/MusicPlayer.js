@@ -30,8 +30,7 @@ const MusicPlayer = () => {
     const navDown = document.querySelector(".turn-off_fullview");
     const menuRight = document.querySelector(".menu-right");
     const fullView = document.querySelector(".fullview");
-    const cd = document.querySelector(".cd");
-    setCd(cd);
+
     setFullView(fullView);
     setMenuRight(menuRight);
     setNavi(navi);
@@ -40,6 +39,24 @@ const MusicPlayer = () => {
     setMusicInfo(musicInfo);
   }, []);
   useEffect(() => {
+    const cd = document.querySelector(".cd");
+    setCd(cd);
+    if (cd) {
+      if (isAudioPlay === true) {
+        cd.classList.add("rotage");
+      } else {
+        cd.classList.remove("rotage");
+      }
+    }
+    if (currentMusic) {
+      const getStore = JSON.parse(localStorage.getItem(currentMusic.id));
+      if (getStore === null) {
+        const newStore = {
+          heart: 0,
+        };
+        localStorage.setItem(currentMusic.id, JSON.stringify(newStore));
+      }
+    }
     if (musicPlayer && isChooseMusic === false && navi && menuRight) {
       musicPlayer.style = `transform: translateY(100%);`;
       navi.style.height = "100%";
@@ -86,6 +103,34 @@ const MusicPlayer = () => {
   const handleUpdateStatusAudio = (data) => {
     setIsAudioPlay(data);
   };
+  const handleClickHeart = (e) => {
+    e.stopPropagation();
+    if (currentMusic) {
+      const heart = document.querySelector(".fa-heart");
+      let getStore = JSON.parse(localStorage.getItem(currentMusic.id));
+      if (heart && getStore) {
+        heart.classList.add("clicked");
+        const countHeart = getStore.heart + 1;
+        const newStore = {
+          heart: countHeart,
+        };
+        localStorage.setItem(currentMusic.id, JSON.stringify(newStore));
+      }
+    }
+  };
+  useEffect(() => {
+    if (currentMusic) {
+      const heart = document.querySelector(".fa-heart");
+      let getStore = JSON.parse(localStorage.getItem(currentMusic.id));
+      if (heart) {
+        if (getStore.heart > 0) {
+          heart.classList.add("clicked");
+        } else {
+          heart.classList.remove("clicked");
+        }
+      }
+    }
+  });
 
   return (
     <>
@@ -112,7 +157,10 @@ const MusicPlayer = () => {
                   <span className="subtitle">{currentMusic.author}</span>
                 </div>
                 <div className="music-icon">
-                  <i className="fa fa-heart"></i>
+                  <i
+                    className="fa fa-heart"
+                    onClick={(e) => handleClickHeart(e)}
+                  ></i>
                   <i className="fa fa-ellipsis-h"></i>
                 </div>
               </div>

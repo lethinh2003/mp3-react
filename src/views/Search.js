@@ -1,12 +1,21 @@
 import "../styles/search.scss";
 import { CgSearch, CgTrending } from "react-icons/cg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import APIMusic from "../api/APIMusic";
 
 const Search = () => {
   const { data: dataMusic, isLoading } = APIMusic("getMusicList", 1000);
-
   const [keyword, setKeyword] = useState("");
+  const [listMusic, setListMusic] = useState(dataMusic);
+  useEffect(() => {
+    if (dataMusic && listMusic) {
+      const listSearch = dataMusic.filter((item) =>
+        item.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setListMusic(listSearch);
+    }
+  }, [keyword]);
+
   const handleChangeKeyword = (e) => {
     setKeyword(e.target.value);
   };
@@ -51,9 +60,9 @@ const Search = () => {
         >
           <div className="list-data">
             <div className="title-search">Kết quả tìm kiếm</div>
-            {dataMusic &&
-              dataMusic.length > 0 &&
-              dataMusic.map((item) => {
+            {listMusic &&
+              listMusic.length > 0 &&
+              listMusic.map((item) => {
                 return (
                   <>
                     <div className="list-item" key={item.id}>

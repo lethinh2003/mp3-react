@@ -108,6 +108,30 @@
   right: 0;
   margin: 10px;
 }
+.clicked {
+  color: red;
+}
+.rotage {
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 @media only screen and (max-width: 768px) {
   .menu-bottom {
     & .music-player {
