@@ -77,7 +77,7 @@
         }
         & .music_author {
           text-align: center;
-          font-size: 20px;
+          font-size: 15px;
         }
       }
     }
@@ -175,6 +175,19 @@
       }
     }
   }
+}
+.item-playing_icon {
+  padding: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 40px;
 }
 
 @media only screen and (max-width: 768px) {

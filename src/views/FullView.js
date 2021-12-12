@@ -1,6 +1,8 @@
 import "../styles/fullview.scss";
 import { useState, useEffect } from "react";
 import { BiVolumeFull, BiVolumeLow, BiVolumeMute } from "react-icons/bi";
+import { TiChartBar } from "react-icons/ti";
+import iconPlaying from "./images/playing.gif";
 const FullView = (props) => {
   const newStore = {
     repeatMusic: true,
@@ -54,6 +56,7 @@ const FullView = (props) => {
       });
     }
     if (currentMusic) {
+      document.title = currentMusic.name;
       const audioPlay = document.querySelector("audio");
       const timeRight = document.querySelector(".time-right");
       const timeLeft = document.querySelector(".time-left");
@@ -198,9 +201,10 @@ const FullView = (props) => {
                     <div className="item-thumbnail_hover"></div>
                     <div
                       class="item-play_icon"
+                      style={{ width: "100px", height: "100px" }}
                       onClick={() => handleClickPrevious()}
                     >
-                      <i class="fa fa-play" aria-hidden="true"></i>
+                      <i class="fa fa-play big-icon" aria-hidden="true"></i>
                     </div>
                     <img src={previousMusic.image} />
                   </div>
@@ -212,9 +216,23 @@ const FullView = (props) => {
               )}
               <div className="info-current_music">
                 <div className="thumbnail-current">
-                  <div className="item-thumbnail_hover"></div>
-                  <div class="item-play_icon">
-                    <i class="fa fa-play" aria-hidden="true"></i>
+                  <div className="item-thumbnail_hover"></div>\
+                  {isAudioPlay === true && (
+                    <div className="item-playing_icon">
+                      <img src={iconPlaying} />
+                    </div>
+                  )}
+                  <div
+                    class="item-play_icon"
+                    style={{ width: "100px", height: "100px" }}
+                    onClick={() => handleOnOffMusic()}
+                  >
+                    {isAudioPlay === false && (
+                      <i class="fa fa-play big-icon" aria-hidden="true"></i>
+                    )}
+                    {isAudioPlay === true && (
+                      <i class="fa fa-pause big-icon" aria-hidden="true"></i>
+                    )}
                   </div>
                   <img src={currentMusic.image} />
                 </div>
@@ -230,9 +248,10 @@ const FullView = (props) => {
                     <div className="item-thumbnail_hover"></div>
                     <div
                       class="item-play_icon"
+                      style={{ width: "100px", height: "100px" }}
                       onClick={() => handleClickNext()}
                     >
-                      <i class="fa fa-play" aria-hidden="true"></i>
+                      <i class="fa fa-play big-icon" aria-hidden="true"></i>
                     </div>
                     <img src={nextMusic.image} />
                   </div>
