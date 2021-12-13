@@ -2,6 +2,7 @@ import "../styles/navigation.scss";
 import APIMusic from "../api/APIMusic";
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import logo from "./images/logo.png";
 const Navigation = () => {
   const { data: dataCategoryMusic } = APIMusic("getMusicCategory", 0);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -59,8 +60,8 @@ const Navigation = () => {
     <>
       <div className="navigation">
         <div className="logo">
-          <a href="index.html">
-            <img src="https://static-zmp3.zadn.vn/zmp3_rpt/images/logo-mp3.svg" />
+          <a href="/">
+            <img src={logo} />
           </a>
         </div>
         <div className="nav-bar">

@@ -27,7 +27,7 @@
   }
   & .list_music_current {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -84,7 +84,6 @@
   }
 
   & .music-player {
-    cursor: pointer;
     z-index: 4;
     height: 70px;
     position: fixed;
@@ -146,6 +145,9 @@
         justify-content: space-around;
         display: flex;
         align-items: center;
+        .fa {
+          cursor: pointer;
+        }
       }
 
       & .playbar-bottom {

@@ -63,6 +63,46 @@ const APIMusic = (type, duration, category) => {
       author: "7!!",
       category: "JP",
     },
+    {
+      id: 6,
+      name: "Unstoppable",
+      image: "https://i.imgur.com/jo6xmpU.jpg",
+      link: "https://www.mboxdrive.com/Unstoppable%20-%20Sia.mp3",
+      author: "Sia",
+      category: "UK",
+    },
+    {
+      id: 7,
+      name: "Touch",
+      image: "https://i.imgur.com/IBSDqGj.jpg",
+      link: "https://www.mboxdrive.com/Touch%20-%203LAU_%20Carly%20Paige.mp3",
+      author: "3LAU, Carly Paige",
+      category: "UK",
+    },
+    {
+      id: 8,
+      name: "Kawaki Wo Ameku",
+      image: "https://i.imgur.com/zwErqbo.jpg",
+      link: "https://www.mboxdrive.com/KawakiWoAmeku-Minami.mp3",
+      author: "Minami",
+      category: "JP",
+    },
+    {
+      id: 9,
+      name: "Dakara Boku Wa Ongaku Wo Yameta",
+      image: "https://i.imgur.com/46DuxOg.jpg",
+      link: "https://www.mboxdrive.com/DakaraBokuWaOngakuWoYameta-Yorushika-6103798.mp3",
+      author: "Yorushika",
+      category: "JP",
+    },
+    {
+      id: 10,
+      name: "Fractures Nightcore",
+      image: "https://i.imgur.com/1Gd39L2.jpg",
+      link: "https://www.mboxdrive.com/Fractures-NightcoreIlleniumNevve-5690375.mp3",
+      author: "Trivecta",
+      category: "UK",
+    },
   ];
   useEffect(() => {
     function FetchAPI() {
