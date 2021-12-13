@@ -42,10 +42,22 @@
     flex-direction: column;
 
     max-height: 400px;
-    overflow-y: auto;
+
+    .box-right_data {
+      overflow-y: auto;
+    }
+    .right-title {
+      padding-bottom: 7px;
+      border-bottom: 2px solid;
+    }
+    .icon-back {
+      font-size: 30px;
+      cursor: pointer;
+      width: 30px;
+    }
     .right-list_item {
       padding: 5px 0;
-
+      align-items: center;
       margin-bottom: 10px;
       display: flex;
       gap: 10px;
@@ -79,6 +91,17 @@
           font-size: 12px;
         }
       }
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .category-container {
+    width: calc(100% - 20px);
+    .box-left {
+      display: none;
+    }
+    .box-right {
+      width: 100%;
     }
   }
 }

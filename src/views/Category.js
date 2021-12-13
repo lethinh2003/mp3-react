@@ -2,6 +2,7 @@ import APIMusic from "../api/APIMusic";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 const Category = () => {
   const { data: dataCategoryMusic, isLoading } = APIMusic(
     "getMusicCategory",
@@ -90,19 +91,21 @@ const Category = () => {
             dataCategoryMusic.map((item) => {
               return (
                 <>
-                  <div className="category-item" key={item.category}>
-                    <div className="item-thumbnail">
-                      <div className="item-thumbnail_hover"></div>
-                      <div className="item-play_icon">
-                        <i className="fa fa-play" aria-hidden="true"></i>
+                  <Link to={"/category/" + item.category} exact>
+                    <div className="category-item" key={item.category}>
+                      <div className="item-thumbnail">
+                        <div className="item-thumbnail_hover"></div>
+                        <div className="item-play_icon">
+                          <i className="fa fa-play" aria-hidden="true"></i>
+                        </div>
+                        <img src={item.image} alt="" />
                       </div>
-                      <img src={item.image} alt="" />
+                      <div className="item-desc">
+                        <span className="item-name">{item.title}</span>
+                        <span className="item_desc">{item.desc}</span>
+                      </div>
                     </div>
-                    <div className="item-desc">
-                      <span className="item-name">{item.title}</span>
-                      <span className="item_desc">{item.desc}</span>
-                    </div>
-                  </div>
+                  </Link>
                 </>
               );
             })}

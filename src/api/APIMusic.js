@@ -90,6 +90,13 @@ const APIMusic = (type, duration, category) => {
               setData(Category);
             }
           }
+          if (type === "getMusicCategoryDetail") {
+            const newFilterData = Category.filter(
+              (item) => item.category === category
+            );
+
+            setData(newFilterData);
+          }
         }, duration);
       }).then(() => {
         setisLoading(false);

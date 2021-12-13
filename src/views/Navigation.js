@@ -72,7 +72,7 @@ const Navigation = () => {
               </div>
             </div>
           </NavLink>
-          {dataCategoryMusic &&
+          {/* {dataCategoryMusic &&
             dataCategoryMusic.length > 0 &&
             dataCategoryMusic.map((item) => {
               return (
@@ -89,7 +89,7 @@ const Navigation = () => {
                   </div>
                 </NavLink>
               );
-            })}
+            })} */}
         </div>
         <div className="nav-open" onClick={() => handleOpenMenu()}>
           <i className="fa fa-chevron-right" aria-hidden="true"></i>
