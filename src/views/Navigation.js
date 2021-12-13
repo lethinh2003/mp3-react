@@ -1,6 +1,9 @@
 import "../styles/navigation.scss";
+import APIMusic from "../api/APIMusic";
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 const Navigation = () => {
+  const { data: dataCategoryMusic } = APIMusic("getMusicCategory", 0);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [nav, setNav] = useState();
   const [navOpen, setNavOpen] = useState();
@@ -61,36 +64,32 @@ const Navigation = () => {
           </a>
         </div>
         <div className="nav-bar">
-          <div className="nav-item">
-            <div className="nav-item__detail">
-              <i className="fa fa-home" aria-hidden="true"></i>
-              <span className="nav-item__title">Trang chủ</span>
+          <NavLink to="/" activeClassName="active" exact>
+            <div className="nav-item">
+              <div className="nav-item__detail">
+                <i className="fa fa-home" aria-hidden="true"></i>
+                <span className="nav-item__title">Trang chủ</span>
+              </div>
             </div>
-          </div>
-          <div className="nav-item">
-            <div className="nav-item__detail">
-              <i className="fa fa-music" aria-hidden="true"></i>
-              <span className="nav-item__title">Nhạc Nhật</span>
-            </div>
-          </div>
-          <div className="nav-item">
-            <div className="nav-item__detail">
-              <i className="fa fa-music" aria-hidden="true"></i>
-              <span className="nav-item__title">Nhạc Anh</span>
-            </div>
-          </div>
-          <div className="nav-item">
-            <div className="nav-item__detail">
-              <i className="fa fa-music" aria-hidden="true"></i>
-              <span className="nav-item__title">Nhạc Mỹ</span>
-            </div>
-          </div>
-          <div className="nav-item">
-            <div className="nav-item__detail">
-              <i className="fa fa-music" aria-hidden="true"></i>
-              <span className="nav-item__title">Nhạc Việt</span>
-            </div>
-          </div>
+          </NavLink>
+          {dataCategoryMusic &&
+            dataCategoryMusic.length > 0 &&
+            dataCategoryMusic.map((item) => {
+              return (
+                <NavLink
+                  to={"/category/" + item.category}
+                  activeClassName="active"
+                  exact
+                >
+                  <div className="nav-item" key={item.category}>
+                    <div className="nav-item__detail">
+                      <i className="fa fa-music" aria-hidden="true"></i>
+                      <span className="nav-item__title">{item.desc}</span>
+                    </div>
+                  </div>
+                </NavLink>
+              );
+            })}
         </div>
         <div className="nav-open" onClick={() => handleOpenMenu()}>
           <i className="fa fa-chevron-right" aria-hidden="true"></i>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-const APIMusic = (type, duration) => {
+const APIMusic = (type, duration, category) => {
   const [data, setData] = useState([]);
   const [isLoading, setisLoading] = useState(true);
   const Category = [
@@ -67,7 +67,7 @@ const APIMusic = (type, duration) => {
   useEffect(() => {
     function FetchAPI() {
       return new Promise(function (resolve, reject) {
-        setTimeout(() => {
+        const test = setTimeout(() => {
           resolve();
           if (type === "getMusicList") {
             setData(PlayList);
@@ -80,7 +80,15 @@ const APIMusic = (type, duration) => {
             setData(newList);
           }
           if (type === "getMusicCategory") {
-            setData(Category);
+            if (category) {
+              const newFilterData = PlayList.filter(
+                (item) => item.category === category
+              );
+
+              setData(newFilterData);
+            } else {
+              setData(Category);
+            }
           }
         }, duration);
       }).then(() => {
@@ -88,6 +96,10 @@ const APIMusic = (type, duration) => {
       });
     }
     FetchAPI();
+    return () => {
+      setData([]);
+      setisLoading(true);
+    };
   }, []);
   return {
     data,

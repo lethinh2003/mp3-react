@@ -30,11 +30,12 @@
   color: white;
   padding-left: 25px;
 }
-.nav-item.active {
+a.active {
   background-color: #3a3344;
   border-left: 3px solid #7200a1;
-  padding-left: 22px;
+  display: block;
 }
+
 .nav-item__detail {
   display: flex;
   gap: 10px;
